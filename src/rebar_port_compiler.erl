@@ -1,4 +1,4 @@
-%% -*- erlang-indent-level: 4;indent-tabs-mode: nil -*-
+%% ng-indent-level: 4;indent-tabs-mode: nil -*-
 %% ex: ts=4 sw=4 et
 %% -------------------------------------------------------------------
 %%
@@ -137,7 +137,7 @@ info_help(Description) ->
        "           CXXFLAGS - C++ compiler~n"
        "           LDFLAGS  - Link flags~n"
        "           ERL_CFLAGS  - default -I paths for erts and ei~n"
-       "           ERL_LDFLAGS - default -L and -lerl_interface -lei~n"
+       "           ERL_LDFLAGS - default -L and -lei~n"
        "           DRV_CFLAGS  - flags that will be used for compiling~n"
        "           DRV_LDFLAGS - flags that will be used for linking~n"
        "           EXE_CFLAGS  - flags that will be used for compiling~n"
@@ -668,12 +668,9 @@ default_env() ->
 
      {"ERL_CFLAGS", lists:concat(
                       [
-                       " -I\"", erl_interface_dir(include),
-                       "\" -I\"", filename:join(erts_dir(), "include"),
-                       "\" "
+                        " -I\"", filename:join(erts_dir(), "include"), "\" "
                       ])},
-     {"ERL_EI_LIBDIR", lists:concat(["\"", erl_interface_dir(lib), "\""])},
-     {"ERL_LDFLAGS"  , " -L$ERL_EI_LIBDIR -lerl_interface -lei"},
+     {"ERL_LDFLAGS"  , " -L$ERL_EI_LIBDIR -lei"},
      {"ERLANG_ARCH"  , rebar_utils:wordsize()},
      {"ERLANG_TARGET", rebar_utils:get_arch()},
 
@@ -721,7 +718,7 @@ default_env() ->
       "$LINKER $PORT_IN_FILES $LDFLAGS $EXE_LDFLAGS /OUT:$PORT_OUT_FILE"},
      %% ERL_CFLAGS are ok as -I even though strictly it should be /I
      {"win32", "ERL_LDFLAGS",
-      " /LIBPATH:$ERL_EI_LIBDIR erl_interface.lib ei.lib"},
+      " /LIBPATH:$ERL_EI_LIBDIR ei.lib"},
      {"win32", "DRV_CFLAGS", "/Zi /Wall $ERL_CFLAGS"},
      {"win32", "DRV_LDFLAGS", "/DLL $ERL_LDFLAGS"}
     ].
@@ -734,3 +731,4 @@ get_tool("", _, _, Default) -> Default;
 get_tool(Arch, false, Tool, _Default) -> Arch++"-"++Tool;
 get_tool(Arch, "", Tool, _Default) -> Arch++"-"++Tool;
 get_tool(Arch, Vsn, Tool, _Default) -> Arch++"-"++Tool++"-"++Vsn.
+
